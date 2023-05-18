@@ -1,62 +1,48 @@
-const cards = document.querySelectorAll(".memory-card");
-let hasFlippedCard = false;
-let lockBoard = false;
-let firstCard, secondCard;
+document.addEventListener("DOMContentLoaded", function () {
+  const cards = Array.from(document.querySelectorAll(".memory-card"));
+  let lockBoard = false;
+  let firstCard, secondCard;
 
-cards.forEach((card) => card.addEventListener("click", flipCard));
-
-function flipCard() {
-  if (lockBoard || this === firstCard) {
-    return;
-  }
-
-  this.classList.add("flip");
-
-  if (!hasFlippedCard) {
-    // První otočená karta
-    hasFlippedCard = true;
-    firstCard = this;
-  } else {
-    // Druhá otočená karta
-    hasFlippedCard = false;
-    secondCard = this;
-
-    // Kontrola shody
-    if (checkForMatch()) {
-      // Shoda
-      disableCards();
+  function flipCard() {
+    if (lockBoard || this === firstCard) return;
+    this.classList.add("flip");
+    if (!firstCard) {
+      firstCard = this;
     } else {
-      // Neshoda
-      lockBoard = true;
-      setTimeout(() => {
-        unflipCards();
-      }, 1000);
+      secondCard = this;
+      checkForMatch();
     }
   }
-}
 
-function checkForMatch() {
-  // Porovnání alt atributů obou karet
-  return firstCard.dataset.framework === secondCard.dataset.framework;
-}
+  function checkForMatch() {
+    if (firstCard.dataset.framework === secondCard.dataset.framework) {
+      disableCards();
+    } else {
+      unflipCards();
+    }
+  }
 
-function disableCards() {
-  // Odebrání event listenerů pro otočené karty
-  firstCard.removeEventListener("click", flipCard);
-  secondCard.removeEventListener("click", flipCard);
+  function disableCards() {
+    firstCard.removeEventListener("click", flipCard);
+    secondCard.removeEventListener("click", flipCard);
+    resetBoard();
+  }
 
-  resetBoard();
-}
+  function unflipCards() {
+    lockBoard = true;
+    setTimeout(() => {
+      firstCard.classList.remove("flip");
+      secondCard.classList.remove("flip");
+      resetBoard();
+    }, 1000);
+  }
 
-function unflipCards() {
-  // Otočení karet zpět rubem nahoru
-  firstCard.classList.remove("flip");
-  secondCard.classList.remove("flip");
+  function resetBoard() {
+    [firstCard, secondCard] = [null, null];
+    lockBoard = false;
+  }
 
-  resetBoard();
-}
-
-function resetBoard() {
-  [hasFlippedCard, lockBoard] = [false, false];
-  [firstCard, secondCard] = [null, null];
-}
+  cards.forEach((card) => {
+    card.addEventListener("click", flipCard);
+  });
+});
