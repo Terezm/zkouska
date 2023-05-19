@@ -29,9 +29,11 @@
    font-size: 20px;
     padding: 20px;
     font-family: cursive;
+  
   }
   .title {
     padding: 150px;
+    
 
  }
   
@@ -126,3 +128,32 @@
       font-size: 24px;
       color: #fff;
   }
+
+
+  /* kvíz*/
+
+.quiz {
+  background-image: url('img/pexeso.jpg');
+    background-repeat: no-repeat;
+}
+
+  .lion {
+    width: 400px;
+    border-radius: 30%;
+    }
+
+  .picture {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+  
+.options {
+  display: flex;
+    justify-content: center;
+}
+
+.btns {
+  border-radius: 100%;
+  background-color: bisque;
+}
