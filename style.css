@@ -156,4 +156,10 @@
 .btns {
   border-radius: 100%;
   background-color: bisque;
+  margin-right: 10px;
+}
+
+.question {
+  font-size:x-large;
+  font-family: cursive;
 }
